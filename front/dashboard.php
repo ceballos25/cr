@@ -1,6 +1,6 @@
 <?php
 require_once "../config/config.php";
-$page_title = "Dashboard POS";
+$page_title = "Dashboard";
 include_once ROOT_PATH . "/includes/head.php";
 ?>
 <script>

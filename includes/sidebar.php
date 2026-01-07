@@ -132,11 +132,11 @@ function isOpen($files, $currentPage) {
           </a>
         </li>
 
-        <li class="sidebar-item <?= isActive('metodos-pago.php', $currentPage); ?>">
-          <a class="sidebar-link" href="metodos-pago.php" aria-expanded="false">
+        <li class="sidebar-item <?= isActive('rifas.php', $currentPage); ?>">
+          <a class="sidebar-link" href="rifas.php" aria-expanded="false">
             <i class="ti ti-credit-card"></i>
-            <span class="hide-menu">Métodos de pago</span>
-          </a>
+            <span class="hide-menu">Rifas</span>
+          </a>          
         </li>
 
         <li><span class="sidebar-divider lg"></span></li>
@@ -154,75 +154,6 @@ function isOpen($files, $currentPage) {
           </a>
         </li>
 
-
-        <li><span class="sidebar-divider lg"></span></li>
-
-        <!-- ADMIN (solo admin) -->
-        <?php if ($isAdmin): ?>
-        <li class="nav-small-cap">
-          <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-          <span class="hide-menu">Administración</span>
-        </li>
-
-        <?php
-          $adminPages = [
-            'usuarios.php','roles.php','permisos.php',
-            'empresa.php','sucursales.php',
-            'impuestos.php','descuentos.php',
-            'numeracion.php','integraciones.php',
-            'respaldos.php','auditoria.php'
-          ];
-        ?>
-        <li class="sidebar-item">
-          <a class="sidebar-link justify-content-between has-arrow" href="javascript:void(0)" aria-expanded="false">
-            <div class="d-flex align-items-center gap-3">
-              <span class="d-flex"><i class="ti ti-settings"></i></span>
-              <span class="hide-menu">Configuración</span>
-            </div>
-          </a>
-
-          <ul aria-expanded="false" class="collapse first-level <?= isOpen($adminPages, $currentPage); ?>">
-            <li class="sidebar-item <?= isActive('usuarios.php', $currentPage); ?>">
-              <a class="sidebar-link" href="usuarios.php">
-                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Usuarios</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item <?= isActive('empresa.php', $currentPage); ?>">
-              <a class="sidebar-link" href="empresa.php">
-                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Empresa</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item <?= isActive('sucursales.php', $currentPage); ?>">
-              <a class="sidebar-link" href="sucursales.php">
-                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Sucursales</span>
-              </a>
-            </li>
-
-
-            <li class="sidebar-item <?= isActive('numeracion.php', $currentPage); ?>">
-              <a class="sidebar-link" href="numeracion.php">
-                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Numeración / Factura</span>
-              </a>
-            </li>
-
-
-            <li class="sidebar-item <?= isActive('respaldos.php', $currentPage); ?>">
-              <a class="sidebar-link" href="respaldos.php">
-                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Respaldos</span>
-              </a>
-            </li>    
-          </ul>
-        </li>
-        <?php endif; ?>
-
-        <li><span class="sidebar-divider lg"></span></li>
 
       </ul>
     </nav>

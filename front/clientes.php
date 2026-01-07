@@ -15,34 +15,33 @@ include_once ROOT_PATH . "/includes/head.php";
         <div class="body-wrapper-inner">
             <div class="container-fluid">
 
-                <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h2 class="mb-0"><i class="ti ti-users me-1"></i> Clientes</h2>
-                        <p class="text-muted mb-0">Gestiona tu base de clientes</p>
+                        <h2 class="mb-0 fw-bold"><i class="ti ti-users me-1"></i> Panel de Clientes</h2>
+                        <p class="text-muted mb-0">Gestión de base de datos de compradores</p>
                     </div>
                     <button class="btn btn-primary" onclick="abrirModal()">
                         <i class="ti ti-plus"></i> Nuevo Cliente
                     </button>
                 </div>
 
-                <!-- Filtros -->
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-body">
+                    <div class="card-body py-3">
                         <div class="row g-2 align-items-end">
                             <div class="col-md-6">
-                                <input type="text" id="searchClientes" class="form-control" 
-                                       placeholder="🔍 Buscar por nombre, apellido, email o teléfono...">
+                                <label class="form-label small fw-bold">Buscador</label>
+                                <input type="text" id="searchClientes" class="form-control form-control-sm" placeholder="Buscar por nombre, email o teléfono...">
                             </div>
                             <div class="col-md-3">
-                                <select id="filterStatus" class="form-select">
-                                    <option value="">Todos los estados</option>
+                                <label class="form-label small fw-bold">Estado</label>
+                                <select id="filterStatus" class="form-select form-select-sm">
+                                    <option value="">Todos</option>
                                     <option value="1">Activos</option>
                                     <option value="0">Inactivos</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-outline-secondary w-100" onclick="limpiarFiltros()">
+                                <button class="btn btn-outline-secondary btn-sm w-100" onclick="limpiarFiltros()">
                                     <i class="ti ti-refresh"></i> Limpiar
                                 </button>
                             </div>
@@ -50,33 +49,32 @@ include_once ROOT_PATH . "/includes/head.php";
                     </div>
                 </div>
 
-                <!-- Tabla -->
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="table table-hover table-striped align-middle mb-0">
+                                <thead class="table-light sticky-top">
                                     <tr>
-                                        <th>#</th>
+                                        <th class="ps-3" width="60">ID</th>
                                         <th>Nombre Completo</th>
                                         <th>Teléfono</th>
                                         <th>Email</th>
                                         <th>Departamento</th>
                                         <th>Ciudad</th>
                                         <th>Estado</th>
-                                        <th class="text-center">Acciones</th>
+                                        <th width="100">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="bodyTabla">
-                                    <tr>
-                                        <td colspan="8" class="text-center py-5">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Cargando...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <tr><td colspan="8" class="text-center py-5">Cargando...</td></tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted" id="infoPaginacion"></small>
+                            <nav><ul class="pagination pagination-sm mb-0" id="contenedorPaginacion"></ul></nav>
                         </div>
                     </div>
                 </div>
@@ -86,49 +84,43 @@ include_once ROOT_PATH . "/includes/head.php";
     </div>
 </div>
 
-<!-- Modal ÚNICO Reutilizable -->
-<div class="modal fade" id="modalCliente" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="modalCliente" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle">Nuevo Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="formCliente" onsubmit="return false;">
-                <div class="modal-body">
+            <form id="formCliente">
+                <div class="modal-body p-4">
                     <input type="hidden" id="clienteId">
-                    
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold">Nombre *</label>
                             <input type="text" class="form-control" id="nombre" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Apellido <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-bold">Apellido *</label>
                             <input type="text" class="form-control" id="apellido" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Teléfono</label>
+                            <label class="form-label small fw-bold">Teléfono</label>
                             <input type="text" class="form-control" id="telefono">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Email</label>
+                            <label class="form-label small fw-bold">Email</label>
                             <input type="email" class="form-control" id="email">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Departamento</label>
-                            <select class="form-select select2-departamento" id="departamento" style="width: 100%;">
-                                <option value="">Seleccione...</option>
-                            </select>
+                            <label class="form-label small fw-bold">Departamento</label>
+                            <select class="form-select select2-departamento" id="departamento"></select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Ciudad</label>
-                            <select class="form-select select2-ciudad" id="ciudad" style="width: 100%;" disabled>
-                                <option value="">Seleccione departamento primero...</option>
-                            </select>
+                            <label class="form-label small fw-bold">Ciudad</label>
+                            <select class="form-select select2-ciudad" id="ciudad" disabled></select>
                         </div>
-                        <div class="col-md-12">
-                            <label class="form-label">Estado</label>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Estado</label>
                             <select class="form-select" id="estado">
                                 <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
@@ -138,34 +130,23 @@ include_once ROOT_PATH . "/includes/head.php";
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="guardarCliente()">
-                        <i class="ti ti-device-floppy"></i> Guardar
-                    </button>
+                    <button type="button" class="btn btn-primary" onclick="guardarCliente()">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modal Confirmación Eliminar -->
-<div class="modal fade" id="modalConfirm" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="modalConfirm" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="ti ti-alert-triangle text-warning me-1"></i> Confirmar
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-0">¿Eliminar este cliente?</p>
-                <small class="text-muted">Esta acción no se puede deshacer.</small>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminar()">
-                    <i class="ti ti-trash"></i> Eliminar
-                </button>
+        <div class="modal-content text-center">
+            <div class="modal-body p-4">
+                <i class="ti ti-alert-triangle text-warning fs-1 mb-3"></i>
+                <h5>¿Eliminar cliente?</h5>
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminar()">Sí, eliminar</button>
+                </div>
             </div>
         </div>
     </div>
