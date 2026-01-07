@@ -1,0 +1,60 @@
+=== LOGIN DEBUG 2026-01-06 17:25:38 ===
+URL: http://api.caballosrevelo.test/admins?login=true&suffix=admin
+HTTP Code: 200
+Curl Error: 
+Response: {
+    "status": 200,
+    "results": [
+        {
+            "id_admin": 1,
+            "email_admin": "irma.herrera",
+            "rol_admin": null,
+            "token_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njc3MzgzMzgsImV4cCI6MTc2NzgyNDczOCwiZGF0YSI6eyJpZCI6MSwiZW1haWwiOiJpcm1hLmhlcnJlcmEifX0.S4sVD5z75K86uUFobWSWOTxl8ekihDY3BhO4bkh6OGQ",
+            "token_exp_admin": 1767824738,
+            "status_admin": 1,
+            "date_created_admin": null,
+            "date_updated_admin": "2026-01-06 15:55:02"
+        }
+    ]
+}
+
+=== LOGIN DEBUG 2026-01-06 19:47:29 ===
+URL: http://api.caballosrevelo.test/admins?login=true&suffix=admin
+HTTP Code: 200
+Curl Error: 
+Response: {
+    "status": 200,
+    "results": [
+        {
+            "id_admin": 1,
+            "email_admin": "irma.herrera",
+            "rol_admin": null,
+            "token_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njc3NDY4NDksImV4cCI6MTc2NzgzMzI0OSwiZGF0YSI6eyJpZCI6MSwiZW1haWwiOiJpcm1hLmhlcnJlcmEifX0.EUgwVZQLvzYHeKqUkcJ5QQf6NIp-0PkxOkLMg2XJ_TI",
+            "token_exp_admin": 1767833249,
+            "status_admin": 1,
+            "date_created_admin": null,
+            "date_updated_admin": "2026-01-06 17:25:38"
+        }
+    ]
+}
+
+=== LOGIN DEBUG 2026-01-06 19:59:10 ===
+URL: http://api.caballosrevelo.test/admins?login=true&suffix=admin
+HTTP Code: 200
+Curl Error: 
+Response: {
+    "status": 200,
+    "results": [
+        {
+            "id_admin": 1,
+            "email_admin": "irma.herrera",
+            "rol_admin": null,
+            "token_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njc3NDc1NTAsImV4cCI6MTc2NzgzMzk1MCwiZGF0YSI6eyJpZCI6MSwiZW1haWwiOiJpcm1hLmhlcnJlcmEifX0.myxzQaSSlr3ce130wMDcUA8JFIVgKHCbc6w7bz4gYQU",
+            "token_exp_admin": 1767833950,
+            "status_admin": 1,
+            "date_created_admin": null,
+            "date_updated_admin": "2026-01-06 19:47:29"
+        }
+    ]
+}
+
