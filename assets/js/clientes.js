@@ -1,196 +1,173 @@
-// ==========================================
-// VARIABLES GLOBALES
-// ==========================================
+/**
+ * clientes.js - Gestión Total Blindada (Sin Omisiones)
+ */
 let clientesCache = [], idClienteEliminar = null, modalCliente = null, modalConfirm = null;
 let paginaActual = 1;
 const registrosPorPagina = 10;
 
 // ==========================================
-// INICIALIZACIÓN BLINDADA
+// FUNCIONES GLOBALES (ACCESIBLES DESDE EL HTML)
 // ==========================================
-document.addEventListener('DOMContentLoaded', function() {
+
+/**
+ * Abre el modal para crear un nuevo cliente
+ */
+function abrirModal() {
+    const form = document.getElementById('formCliente');
+    if (form) form.reset();
     
-    // Solo inicializar si los elementos existen para evitar el error de 'backdrop'
+    setVal('clienteId', '');
+    document.getElementById('modalTitle').textContent = 'Nuevo Cliente';
+
+    // Resetear Select2 y disparar evento para sincronizar departamentos-ciudades.js
+    $('#departamento').val('').trigger('change');
+    $('#ciudad').val('').trigger('change').prop('disabled', true);
+    
+    if(modalCliente) modalCliente.show();
+}
+
+/**
+ * Cambia la página actual del listado
+ */
+function cambiarPagina(p) { 
+    paginaActual = p; 
+    renderizarTodo(); 
+}
+
+/**
+ * Helper para asignar valores a inputs, permitiendo el valor 0 (Inactivo)
+ */
+function setVal(id, value) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.value = (value !== null && value !== undefined) ? value : '';
+    }
+}
+
+// ==========================================
+// INICIALIZACIÓN Y CARGA
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', function() {
     const elModalCliente = document.getElementById('modalCliente');
     const elModalConfirm = document.getElementById('modalConfirm');
 
-    if (elModalCliente && typeof bootstrap !== 'undefined') {
-        modalCliente = bootstrap.Modal.getOrCreateInstance(elModalCliente);
-    }
-    
-    if (elModalConfirm && typeof bootstrap !== 'undefined') {
-        modalConfirm = bootstrap.Modal.getOrCreateInstance(elModalConfirm);
-    }
+    if (elModalCliente) modalCliente = bootstrap.Modal.getOrCreateInstance(elModalCliente);
+    if (elModalConfirm) modalConfirm = bootstrap.Modal.getOrCreateInstance(elModalConfirm);
 
-    if (window.alertify) {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.set('notifier', 'delay', 3);
-    }
-
-    // Inicialización de Select2 (Tus estilos originales)
+    // Inicializar Select2 con temas originales
     if ($('.select2-departamento').length) {
         $('.select2-departamento').select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $('#modalCliente'),
-            width: '100%',
-            placeholder: 'Seleccione un departamento'
+            theme: 'bootstrap-5', dropdownParent: $('#modalCliente'), width: '100%', placeholder: 'Departamento'
         });
     }
-
     if ($('.select2-ciudad').length) {
         $('.select2-ciudad').select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $('#modalCliente'),
-            width: '100%',
-            placeholder: 'Seleccione una ciudad'
+            theme: 'bootstrap-5', dropdownParent: $('#modalCliente'), width: '100%', placeholder: 'Ciudad'
         });
     }
 
+    // Activar lógica de departamentos-ciudades.js si existe
     if (typeof inicializarUbicacion === 'function') inicializarUbicacion();
 
-    // Solo cargar si existe el cuerpo de la tabla
-    if (document.getElementById('bodyTabla')) {
-        cargarClientes();
-    }
+    if (document.getElementById('bodyTabla')) cargarClientes();
 
-    // Filtros con Debounce
-    const btnSearch = document.getElementById('searchClientes');
-    if (btnSearch) btnSearch.addEventListener('input', debounce(cargarClientes, 500));
+    const inputSearch = document.getElementById('searchClientes');
+    if (inputSearch) inputSearch.addEventListener('input', debounce(cargarClientes, 500));
 
-    const btnStatus = document.getElementById('filterStatus');
-    if (btnStatus) btnStatus.addEventListener('change', cargarClientes);
-
-    if (elModalCliente) {
-        $('#modalCliente').on('shown.bs.modal', () => $(document).off('focusin.modal'));
-    }
+    const selectStatus = document.getElementById('filterStatus');
+    if (selectStatus) selectStatus.addEventListener('change', cargarClientes);
 });
 
-// ==========================================
-// CARGAR CLIENTES (CON PRELOADER)
-// ==========================================
 async function cargarClientes() {
     if (typeof showPreloader === 'function') showPreloader();
-    
     try {
-        const searchInput = document.getElementById('searchClientes');
-        const statusSelect = document.getElementById('filterStatus');
-
         const formData = new FormData();
         formData.append('action', 'obtener');
-        formData.append('search', searchInput ? searchInput.value.trim() : '');
-        formData.append('status', statusSelect ? statusSelect.value : '');
+        formData.append('search', document.getElementById('searchClientes')?.value.trim() || '');
+        formData.append('status', document.getElementById('filterStatus')?.value || '');
 
         const response = await fetch('ajax/clientes.ajax.php', { method: 'POST', body: formData });
         const data = await response.json();
 
         if (data.success) {
             clientesCache = data.data || [];
-            paginaActual = 1; 
             renderizarTodo();
         }
-    } catch (error) {
-        console.error('Error:', error);
-        renderizarTodo([]);
-    } finally {
-        if (typeof hidePreloader === 'function') hidePreloader();
-    }
+    } catch (e) { console.error("Error al cargar:", e); }
+    finally { if (typeof hidePreloader === 'function') hidePreloader(); }
 }
 
-// ==========================================
-// RENDERIZADO MODULAR
-// ==========================================
 function renderizarTodo() {
     if (typeof PaginationHelper === 'undefined') return;
-
     const segmento = PaginationHelper.getSegment(clientesCache, paginaActual, registrosPorPagina);
     renderTabla(segmento);
-
     PaginationHelper.render({
-        totalItems: clientesCache.length,
-        currentPage: paginaActual,
-        limit: registrosPorPagina,
-        containerId: 'contenedorPaginacion',
-        infoId: 'infoPaginacion',
-        callbackName: 'cambiarPagina'
+        totalItems: clientesCache.length, currentPage: paginaActual, limit: registrosPorPagina,
+        containerId: 'contenedorPaginacion', infoId: 'infoPaginacion', callbackName: 'cambiarPagina'
     });
 }
 
 function renderTabla(clientes) {
     const tbody = document.getElementById('bodyTabla');
     if (!tbody) return;
-    
     if (!clientes || clientes.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted">No hay registros</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted">No se encontraron registros</td></tr>`;
         return;
     }
-
-    // TABLA LIMPIA: Tal cual me la pasaste, sin <strong> ni badges extras en ID
     tbody.innerHTML = clientes.map(c => {
         const activo = parseInt(c.status_customer) === 1;
-        const nombreCompleto = `${c.name_customer || ''} ${c.lastname_customer || ''}`.trim();
         return `
             <tr>
                 <td>${c.id_customer}</td>
-                <td>${nombreCompleto || '-'}</td>
+                <td>${c.name_customer} ${c.lastname_customer}</td>
                 <td>${c.phone_customer || '-'}</td>
                 <td>${c.email_customer || '-'}</td>
                 <td>${c.department_customer || '-'}</td>
                 <td>${c.city_customer || '-'}</td>
+                <td><span class="badge ${activo ? 'bg-success' : 'bg-danger'}">${activo ? 'Activo' : 'Inactivo'}</span></td>
                 <td>
-                    <span class="badge ${activo ? 'bg-success' : 'bg-secondary'}">
-                        ${activo ? 'Activo' : 'Inactivo'}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-outline-primary" onclick="editarCliente(${c.id_customer})"><i class="ti ti-edit"></i></button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="eliminarCliente(${c.id_customer})"><i class="ti ti-trash"></i></button>
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editarCliente(${c.id_customer})"><i class="ti ti-edit"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminarCliente(${c.id_customer})"><i class="ti ti-trash"></i></button>
+                    </div>
                 </td>
             </tr>`;
     }).join('');
-}
-
-// ==========================================
-// ACCIONES Y UTILIDADES
-// ==========================================
-function cambiarPagina(p) { 
-    paginaActual = p; 
-    renderizarTodo(); 
-}
-
-function abrirModal() {
-    document.getElementById('formCliente').reset();
-    document.getElementById('clienteId').value = '';
-    $('#departamento').val('').trigger('change'); 
-    if(modalCliente) modalCliente.show();
 }
 
 function editarCliente(id) {
     const c = clientesCache.find(x => parseInt(x.id_customer) === parseInt(id));
     if (!c) return;
 
-    document.getElementById('clienteId').value = c.id_customer;
-    document.getElementById('nombre').value = c.name_customer || '';
-    document.getElementById('apellido').value = c.lastname_customer || '';
-    document.getElementById('telefono').value = c.phone_customer || '';
-    document.getElementById('email').value = c.email_customer || '';
-    document.getElementById('estado').value = c.status_customer || '1';
+    setVal('clienteId', c.id_customer);
+    setVal('nombre', c.name_customer);
+    setVal('apellido', c.lastname_customer);
+    setVal('telefono', c.phone_customer);
+    setVal('email', c.email_customer);
+    setVal('estado', c.status_customer); // Soporta el 0 perfectamente
 
-    if (c.department_customer) $('#departamento').val(c.department_customer).trigger('change');
-    if (c.city_customer) $('#ciudad').val(c.city_customer).trigger('change');
+    // LÓGICA DE UBICACIÓN SINCRONIZADA
+    if (c.department_customer) {
+        $('#departamento').val(c.department_customer).trigger('change');
+        if (c.city_customer) {
+            // Espera a que el script cargue las ciudades del departamento
+            setTimeout(() => {
+                $('#ciudad').val(c.city_customer).trigger('change');
+            }, 350);
+        }
+    }
 
+    document.getElementById('modalTitle').textContent = 'Editar Cliente';
     if(modalCliente) modalCliente.show();
 }
 
 async function guardarCliente() {
     const id = document.getElementById('clienteId').value;
-    const nombre = document.getElementById('nombre').value.trim();
-    if (!nombre) return alertify.warning('Nombre obligatorio');
-
-    if (typeof showPreloader === 'function') showPreloader();
     const formData = new FormData();
     formData.append('action', id ? 'actualizar' : 'crear');
     formData.append('id_customer', id);
-    formData.append('name_customer', nombre);
+    formData.append('name_customer', document.getElementById('nombre').value.trim());
     formData.append('lastname_customer', document.getElementById('apellido').value.trim());
     formData.append('phone_customer', document.getElementById('telefono').value.trim());
     formData.append('email_customer', document.getElementById('email').value.trim());
@@ -198,6 +175,7 @@ async function guardarCliente() {
     formData.append('city_customer', $('#ciudad').val() || '');
     formData.append('status_customer', document.getElementById('estado').value);
 
+    if (typeof showPreloader === 'function') showPreloader();
     try {
         const res = await fetch('ajax/clientes.ajax.php', { method: 'POST', body: formData });
         const data = await res.json();
@@ -205,10 +183,9 @@ async function guardarCliente() {
             alertify.success(data.message);
             if(modalCliente) modalCliente.hide();
             cargarClientes();
-        }
-    } finally {
-        if (typeof hidePreloader === 'function') hidePreloader();
-    }
+        } else { alertify.error(data.message); }
+    } catch (e) { alertify.error("Error en la solicitud"); }
+    finally { if (typeof hidePreloader === 'function') hidePreloader(); }
 }
 
 function eliminarCliente(id) { 
@@ -217,7 +194,6 @@ function eliminarCliente(id) {
 }
 
 async function confirmarEliminar() {
-    if (!idClienteEliminar) return;
     if (typeof showPreloader === 'function') showPreloader();
     try {
         const fd = new FormData();
@@ -230,20 +206,14 @@ async function confirmarEliminar() {
             if(modalConfirm) modalConfirm.hide();
             cargarClientes();
         }
-    } finally {
-        if (typeof hidePreloader === 'function') hidePreloader();
-    }
+    } finally { if (typeof hidePreloader === 'function') hidePreloader(); }
 }
 
 function limpiarFiltros() {
-    const s = document.getElementById('searchClientes');
-    const f = document.getElementById('filterStatus');
-    if(s) s.value = '';
-    if(f) f.value = '';
+    document.getElementById('searchClientes').value = '';
+    document.getElementById('filterStatus').value = '';
+    paginaActual = 1;
     cargarClientes();
 }
 
-function debounce(f, w) {
-    let t;
-    return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), w); };
-}
+function debounce(f, w) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), w); }; }

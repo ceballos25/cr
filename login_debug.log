@@ -1,0 +1,40 @@
+=== LOGIN DEBUG 2026-01-08 10:27:56 ===
+URL: http://api.caballosrevelo.test/admins?login=true&suffix=admin
+HTTP Code: 200
+Curl Error: 
+Response: {
+    "status": 200,
+    "results": [
+        {
+            "id_admin": 1,
+            "email_admin": "irma.herrera",
+            "rol_admin": null,
+            "token_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njc4ODYwNzYsImV4cCI6MTc2Nzk3MjQ3NiwiZGF0YSI6eyJpZCI6MSwiZW1haWwiOiJpcm1hLmhlcnJlcmEifX0.RJnjYqR8h5C9GkkHfhnn7B6O2mVWWGKHEepRR8sdCEo",
+            "token_exp_admin": 1767972476,
+            "status_admin": 1,
+            "date_created_admin": null,
+            "date_updated_admin": "2026-01-07 16:36:39"
+        }
+    ]
+}
+
+=== LOGIN DEBUG 2026-01-08 19:13:57 ===
+URL: http://api.caballosrevelo.test/admins?login=true&suffix=admin
+HTTP Code: 200
+Curl Error: 
+Response: {
+    "status": 200,
+    "results": [
+        {
+            "id_admin": 1,
+            "email_admin": "irma.herrera",
+            "rol_admin": null,
+            "token_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njc5MTc2MzcsImV4cCI6MTc2ODAwNDAzNywiZGF0YSI6eyJpZCI6MSwiZW1haWwiOiJpcm1hLmhlcnJlcmEifX0._zbQz0CEE7IlKLGQf-RTgqbChhMImQ19IL2WI2Cyy78",
+            "token_exp_admin": 1768004037,
+            "status_admin": 1,
+            "date_created_admin": null,
+            "date_updated_admin": "2026-01-08 10:27:56"
+        }
+    ]
+}
+

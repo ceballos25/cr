@@ -42,8 +42,8 @@ function isOpen($files, $currentPage) {
           </a>
         </li>
 
-        <li class="sidebar-item <?= isActive('pos.php', $currentPage); ?>">
-          <a class="sidebar-link" href="pos.php" aria-expanded="false">
+        <li class="sidebar-item <?= isActive('nueva_venta.php', $currentPage); ?>">
+          <a class="sidebar-link" href="nueva_venta.php" aria-expanded="false">
             <i class="ti ti-shopping-cart"></i>
             <span class="hide-menu">Vender</span>
           </a>
@@ -90,9 +90,9 @@ function isOpen($files, $currentPage) {
           <ul aria-expanded="false" class="collapse first-level <?= isOpen($prodPages, $currentPage); ?>">
 
             <li class="sidebar-item <?= isActive('categorias.php', $currentPage); ?>">
-              <a class="sidebar-link" href="categorias.php">
+              <a class="sidebar-link" href="ventas.php">
                 <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
-                <span class="hide-menu">Detalle Ventas</span>
+                <span class="hide-menu">Ventas</span>
               </a>
             </li>
 
@@ -150,7 +150,7 @@ function isOpen($files, $currentPage) {
         <li class="sidebar-item <?= isActive('reportes-ventas.php', $currentPage); ?>">
           <a class="sidebar-link" href="ventas.php" aria-expanded="false">
             <i class="ti ti-chart-bar"></i>
-            <span class="hide-menu">Ventas</span>
+            <span class="hide-menu">Ventas al detalle</span>
           </a>
         </li>
 

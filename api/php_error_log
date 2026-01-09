@@ -1,0 +1,100 @@
+[08-Jan-2026 01:45:54 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:01:58 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:39 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:40 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:40 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:40 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:41 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:41 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[08-Jan-2026 02:14:51 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39
+[09-Jan-2026 03:32:13 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'date_raffle' at row 1 in C:\xampp\htdocs\cr\api\models\post.model.php:39
+Stack trace:
+#0 C:\xampp\htdocs\cr\api\models\post.model.php(39): PDOStatement->execute()
+#1 C:\xampp\htdocs\cr\api\controllers\post.controller.php(20): PostModel::postData('raffles', Array)
+#2 C:\xampp\htdocs\cr\api\routes\services\post.php(93): PostController::postData('raffles', Array)
+#3 C:\xampp\htdocs\cr\api\routes\routes.php(83): include('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\cr\api\controllers\routes.controller.php(13): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\cr\api\index.php(29): RoutesController->index()
+#6 {main}
+  thrown in C:\xampp\htdocs\cr\api\models\post.model.php on line 39

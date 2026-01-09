@@ -1,101 +1,100 @@
 <?php
 class RifasController {
-
     const TABLE = 'raffles';
 
+    /**
+     * Listar rifas con búsqueda y filtros combinados (Corregido)
+     */
     public static function obtenerRifas() {
         $params = [
-            'select' => 'id_raffle,title_raffle,description_raffle,price_raffle,digits_raffle,date_raffle,status_raffle,promotions_raffle',
+            'select' => '*',
             'orderBy' => 'id_raffle',
             'orderMode' => 'DESC'
         ];
 
-        $search = !empty($_POST['search']) ? trim($_POST['search']) : '';
+        // Capturamos los valores de búsqueda y estado
+        $search = !empty($_POST['search']) ? trim((string)$_POST['search']) : '';
         $status = (isset($_POST['status']) && $_POST['status'] !== '') ? $_POST['status'] : '';
 
-        // LÓGICA SEGÚN PÁGINA 17 DE LA DOCUMENTACIÓN
+        // ESCENARIO 1: Búsqueda de texto Y Filtro de estado
         if ($search !== '' && $status !== '') {
-            // Buscamos el término en title_raffle y aplicamos filtro exacto en status_raffle
+            // Balance 1:1 - title_raffle usa LIKE (%search%) y status_raffle usa = [cite: 1181, 1182]
             $params['linkTo'] = 'title_raffle,status_raffle';
-            $params['search'] = $search . ',' . $status;
-        } elseif ($search !== '') {
-            // Búsqueda simple por palabra clave
+            $params['search'] = "$search,$status";
+        } 
+        // ESCENARIO 2: Solo búsqueda de texto
+        elseif ($search !== '') {
             $params['linkTo'] = 'title_raffle';
             $params['search'] = $search;
-        } elseif ($status !== '') {
-            // Filtro exacto por estado (Página 11)
+        } 
+        // ESCENARIO 3: Solo filtro de estado
+        elseif ($status !== '') {
             $params['linkTo'] = 'status_raffle';
-            $params['equalTo'] = $status;
+            $params['equalTo'] = $status; // Filtro exacto [cite: 1028]
         }
 
         $result = ApiRequest::get(self::TABLE, $params);
-
+        
         if (ApiRequest::isSuccess($result)) {
-            return ['success' => true, 'data' => $result->results ?? []];
+            $data = $result->results ?? [];
+            // Siempre retornamos array para que el JS no falle
+            return [
+                'success' => true, 
+                'data' => is_array($data) ? $data : [$data]
+            ];
         }
-
+        
         return ['success' => true, 'data' => []];
     }
 
+    /**
+     * Crear Rifa y Generar Boletos (Sin recortes)
+     */
     public static function crearRifa($data) {
-        if (empty($data['title_raffle']) || empty($data['price_raffle']) || empty($data['digits_raffle']) || empty($data['date_raffle'])) {
-            return ['success' => false, 'message' => 'Faltan campos obligatorios'];
-        }
-
-        $datosCrear = [
+        set_time_limit(0); 
+        
+        $datos = [
             'title_raffle'       => trim($data['title_raffle']),
-            'description_raffle' => trim($data['description_raffle'] ?? ''),
-            'price_raffle'       => (float)$data['price_raffle'],
+            'description_raffle' => trim($data['description_raffle']),
+            'promotions_raffle'  => trim($data['promotions_raffle'] ?? ''),
+            'price_raffle'       => $data['price_raffle'],
             'digits_raffle'      => (int)$data['digits_raffle'],
             'date_raffle'        => $data['date_raffle'],
-            'promotions_raffle'  => trim($data['promotions_raffle'] ?? ''),
             'status_raffle'      => (int)$data['status_raffle']
         ];
-
-        $url = self::TABLE . "?token=no&table=" . self::TABLE . "&suffix=raffle&except=title_raffle";
-        $result = ApiRequest::post($url, $datosCrear);
-
-        if (ApiRequest::isSuccess($result)) {
-            $idRifaGenerada = $result->results->lastId; 
+        
+        $res = ApiRequest::post(self::TABLE . "?token=no&except=title_raffle", $datos);
+        
+        if (ApiRequest::isSuccess($res) && isset($res->results->lastId)) {
+            $idRifa = $res->results->lastId;
             $cifras = (int)$data['digits_raffle'];
-            $totalTickets = pow(10, $cifras);
-            set_time_limit(0); 
-
-            for ($i = 0; $i < $totalTickets; $i++) {
-                $numeroFormateado = str_pad($i, $cifras, "0", STR_PAD_LEFT);
-                $datosTicket = [
-                    "number_ticket"      => $numeroFormateado,
-                    "status_ticket"      => 0,
-                    "id_raffle_ticket"   => $idRifaGenerada,
-                    "date_created_ticket" => date("Y-m-d")
+            $totalBoletos = pow(10, $cifras);
+            
+            for ($i = 0; $i < $totalBoletos; $i++) {
+                $numero = str_pad($i, $cifras, "0", STR_PAD_LEFT);
+                $ticket = [
+                    'number_ticket'    => $numero,
+                    'status_ticket'    => 0, 
+                    'id_raffle_ticket' => $idRifa
                 ];
-                $urlTicket = "tickets?token=no&table=tickets&suffix=ticket&except=number_ticket";
-                ApiRequest::post($urlTicket, $datosTicket);
+                ApiRequest::post("tickets?token=no&except=number_ticket", $ticket);
             }
-            return ['success' => true, 'message' => 'Rifa y ' . $totalTickets . ' números generados'];
+            return ['success' => true, 'message' => "Rifa creada con $totalBoletos boletos."];
         }
-        return ['success' => false, 'message' => 'Error API'];
+        return ['success' => false, 'message' => 'Error al crear la rifa.'];
     }
 
     public static function actualizarRifa($data) {
-        if (empty($data['id_raffle'])) return ['success' => false, 'message' => 'ID requerido'];
-        $datosActualizar = [
-            'title_raffle'       => trim($data['title_raffle']),
-            'description_raffle' => trim($data['description_raffle'] ?? ''),
-            'price_raffle'       => (float)$data['price_raffle'],
-            'digits_raffle'      => (int)$data['digits_raffle'],
-            'date_raffle'        => $data['date_raffle'],
-            'promotions_raffle'  => trim($data['promotions_raffle'] ?? ''),
-            'status_raffle'      => (int)$data['status_raffle']
-        ];
-        $url = self::TABLE . "?id=" . $data['id_raffle'] . "&nameId=id_raffle&token=no&except=title_raffle";
-        $result = ApiRequest::put($url, $datosActualizar);
-        return ApiRequest::isSuccess($result) ? ['success' => true, 'message' => 'Actualizado'] : ['success' => false];
+        $id = $data['id_raffle'];
+        unset($data['action'], $data['id_raffle']);
+        $url = self::TABLE . "?id=$id&nameId=id_raffle&token=no&except=title_raffle";
+        $res = ApiRequest::put($url, $data);
+        return ApiRequest::isSuccess($res) ? ['success' => true, 'message' => 'Rifa actualizada'] : ['success' => false];
     }
 
     public static function eliminarRifa($data) {
         $url = self::TABLE . "?id=" . $data['id_raffle'] . "&nameId=id_raffle&token=no&except=title_raffle";
-        $result = ApiRequest::delete($url);
-        return ApiRequest::isSuccess($result) ? ['success' => true, 'message' => 'Eliminado'] : ['success' => false];
+        $res = ApiRequest::delete($url);
+        return ApiRequest::isSuccess($res) ? ['success' => true, 'message' => 'Rifa eliminada'] : ['success' => false];
     }
 }
