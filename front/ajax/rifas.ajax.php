@@ -9,6 +9,14 @@ $result = ['success' => false, 'message' => 'Acción no válida'];
 
 try {
     switch ($action) {
+        // CASO NUEVO: Reutiliza la lógica existente forzando el estado
+        case 'obtener_activas': 
+            $_POST['status'] = 1; // Truco: Forzamos filtro de activos
+            // No necesitamos 'search', así que lo aseguramos vacío o lo dejamos como venga
+            $result = RifasController::obtenerRifas(); 
+            break;
+
+        // Casos existentes...
         case 'obtener': 
             $result = RifasController::obtenerRifas(); 
             break;
@@ -27,3 +35,4 @@ try {
 }
 
 echo json_encode($result);
+?>

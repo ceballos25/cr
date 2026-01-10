@@ -42,8 +42,8 @@ function isOpen($files, $currentPage) {
           </a>
         </li>
 
-        <li class="sidebar-item <?= isActive('nueva_venta.php', $currentPage); ?>">
-          <a class="sidebar-link" href="nueva_venta.php" aria-expanded="false">
+        <li class="sidebar-item <?= isActive('vender.php', $currentPage); ?>">
+          <a class="sidebar-link" href="vender.php" aria-expanded="false">
             <i class="ti ti-shopping-cart"></i>
             <span class="hide-menu">Vender</span>
           </a>
